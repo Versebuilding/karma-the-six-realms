@@ -19,7 +19,9 @@ public class Interactable : MonoBehaviour
     private bool playerIsClose;
     private GameObject player;
 
-    enum interactType // Eventually I would like to move each type of interactable to it's own script to allow for more specific mechancis, but I think this works fine for now.
+		// Eventually I would like to move each type of interactable to it's own script
+		// to allow for more specific mechancis, but I think this works fine for now.
+    enum interactType
     {
         DIALOGUE, // NPCs with dialogues
         PICKUP, // Items that can be picked up
@@ -28,7 +30,8 @@ public class Interactable : MonoBehaviour
 
     void Start()
     {
-        // Gets a reference to the player character - this is used for getting/setting variables from them (this should be reworked once someone who actually knows how to code gets their hands on the project)
+        // Gets a reference to the player character - this is used for getting/setting variables
+				// from them (this should be reworked once someone who actually knows how to code gets their hands on the project)
         player = GameObject.Find("Player");
         playerScript = player.GetComponent<Player>();
     }
@@ -67,7 +70,7 @@ public class Interactable : MonoBehaviour
         }
     }
 
-    // Used to determine when the player is cloe or not, allowing/disallowing interacting
+    // Used to determine when the player is close or not, allowing/disallowing interacting
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
