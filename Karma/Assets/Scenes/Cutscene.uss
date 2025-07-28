@@ -1,0 +1,25 @@
+.potrait {
+	width: 250px;
+	height: 250px;
+}
+
+.potrait_box {
+	flex-direction: row;
+	margin-left: auto;
+}
+
+#button_container, #potrait_boxes {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+Button {
+	width: 200px;
+	height: 50px;
+}
+
+#speach {
+	font-size: 39px;
+	-unity-font-style: bold;
+}

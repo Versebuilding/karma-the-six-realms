@@ -1,0 +1,27 @@
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+		<engine:Style src="Cutscene.uss" />
+		<engine:Box name="potrait boxes">
+			<engine:Box class="potrait_box" name="speaker_potrait_box">
+				<engine:Label name="speaker_potrait_caption" text="bob" />
+				<engine:Image name="speaker_potrait" class="potrait" style="--unity-image: url('test_potrait.png')" />
+			</engine:Box>
+			<engine:Box class="potrait_box" name="pc_potrait_box">
+				<engine:Label name="pc_potrait_caption" text="you" />
+				<engine:Image name="pc_potrait" class="potrait" style="--unity-image: url('test_potrait.png')" />
+			</engine:Box>
+		</engine:Box>
+		<engine:Box name="speach_scroll_box">
+			<engine:Label name="speach" text="sample" />
+		</engine:Box>
+    <engine:Box name="button_container">
+        <engine:Button name="Option1" text="jump very high" />
+        <engine:Button name="Option2" text="jump very far" />
+        <engine:Button name="Option3" text="do nothing" />
+        <engine:Button name="Option4" text="run in a cirlce" />
+    </engine:Box>
+</engine:UXML>
