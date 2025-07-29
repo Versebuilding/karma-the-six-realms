@@ -20,7 +20,7 @@ Button {
 }
 
 #speach {
-	font-size: 39px;
+	font-size: 20px;
 	-unity-font-style: bold;
 }
 
