@@ -4,6 +4,7 @@
     xmlns:editor="UnityEditor.UIElements"
     xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
 >
+	<engine:Box name="root-panel">
 		<engine:Style src="Cutscene.uss" />
 		<engine:Box name="potrait boxes">
 			<engine:Box class="potrait_box" name="speaker_potrait_box">
@@ -24,4 +25,5 @@
         <engine:Button name="Option3" text="do nothing" />
         <engine:Button name="Option4" text="run in a cirlce" />
     </engine:Box>
+	</engine:Box>
 </engine:UXML>
