@@ -9,11 +9,11 @@
 		<engine:Box name="potrait boxes">
 			<engine:Box class="potrait_box" name="speaker_potrait_box">
 				<engine:Label name="speaker_potrait_caption" text="bob" />
-				<engine:Image name="speaker_potrait" class="potrait" style="--unity-image: url('test_potrait.png')" />
+				<engine:Image name="speaker_potrait" class="potrait" style="--unity-image: url('../Images/test_potrait.png')" />
 			</engine:Box>
 			<engine:Box class="potrait_box" name="pc_potrait_box">
 				<engine:Label name="pc_potrait_caption" text="you" />
-				<engine:Image name="pc_potrait" class="potrait" style="--unity-image: url('test_potrait.png')" />
+				<engine:Image name="pc_potrait" class="potrait" style="--unity-image: url('../Images/test_potrait.png')" />
 			</engine:Box>
 		</engine:Box>
 		<engine:Box name="speach_scroll_box">
