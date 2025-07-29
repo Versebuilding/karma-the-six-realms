@@ -26,14 +26,16 @@ public class DialougeScene : MonoBehaviour
 	void Start()
 	{
 		UIDocument ui = GetComponent<UIDocument>();
-		this.textComponent = ui.rootVisualElement.Q<Label>("speach");
-// 		List<Button> buttons = ui.Q<Button>().toList();
-//
-// 		for (int i = 0; i < buttons.Length; i++) {
-// 			buttons[i].text = this.options[i];
-// 		}
+		this.textComponent = ui.rootVisualElement.Query<UnityEngine.UIElements.Label>("speach").First();
+		List<UnityEngine.UIElements.Label> buttons =
+			ui.rootVisualElement.Query<UnityEngine.UIElements.Button>(className: "option-button")
+			.Children<Label>(className: "option-label")
+			.ToList();
 
-		//for testing purposes only
+		for (int i = 0; i < buttons.Count; i++) {
+			buttons[i].text = options[i];
+		}
+
 		Debug.Log(this.textComponent.text);
 
 		StartCoroutine(RevealAndScrollText());

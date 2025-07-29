@@ -19,6 +19,10 @@ Button {
 	height: 50px;
 }
 
+.option-label {
+	white-space: normal;
+}
+
 #speach {
 	font-size: 20px;
 	-unity-font-style: bold;
@@ -29,7 +33,9 @@ Button {
 	position: absolute;
 	width: 400px;
 	height: 300px;
-	right: 5%;
+	left: 5%;
 	bottom: 5%;
 	background-color: lightblue;
+	white-space: normal;
+	flex-direction: column;
 }

@@ -20,10 +20,18 @@
 			<engine:Label name="speach" text="sample" />
 		</engine:Box>
     <engine:Box name="button_container">
-        <engine:Button name="Option1" text="jump very high" />
-        <engine:Button name="Option2" text="jump very far" />
-        <engine:Button name="Option3" text="do nothing" />
-        <engine:Button name="Option4" text="run in a cirlce" />
+			<engine:Button class="option-button" name="Option1" text="">
+				<engine:Label class="option-label" text="" />
+			</engine:Button>
+			<engine:Button class="option-button" name="Option2" text="">
+				<engine:Label class="option-label" text="" />
+			</engine:Button>
+			<engine:Button class="option-button" name="Option3" text="">
+				<engine:Label class="option-label" text="" />
+			</engine:Button>
+			<engine:Button class="option-button" name="Option4" text="">
+				<engine:Label class="option-label" text="" />
+			</engine:Button>
     </engine:Box>
 	</engine:Box>
 </engine:UXML>
