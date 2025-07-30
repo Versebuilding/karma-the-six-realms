@@ -54,26 +54,14 @@ public class DialogeScene : MonoBehaviour
 		StartCoroutine(StartCurrentEvent());
 	}
 
-	IEnumerator LastEvent()
-	{
-		yield return new WaitForSecondsRealtime(DialogeScene.buttonDelayConst);
-		this.button_labels[0].text = "Ok";
-		this.buttons[0].clicked -= this.button_handlers[0];
-		this.buttons[0].clicked += () => this.End();
-		this.buttons[0].style.display = DisplayStyle.Flex;
-		yield break;
-	}
-
 	IEnumerator StartCurrentEvent()
 	{
 		Debug.Log(this.dTree.IsOngoing());
 		if (!this.dTree.IsOngoing())
 		{
-			Debug.Log("not ongoing");
 			this.End();
 			yield break;
 		}
-
 
 		string speech = this.dTree.GetSpeech();
 
@@ -86,7 +74,6 @@ public class DialogeScene : MonoBehaviour
 
 		if (this.dTree.IsLastEvent())
 		{
-			Debug.Log("starting corr");
 			StartCoroutine(LastEvent());
 			yield break;
 		}
@@ -116,16 +103,6 @@ public class DialogeScene : MonoBehaviour
 		}
 	}
 
-	void ClearDialouge()
-	{
-		for (int i = 0; i < this.buttons.Count; i++)
-		{
-			this.buttons[i].style.display = DisplayStyle.None;
-		}
-
-		this.textComponent.text = "";
-	}
-
 	public void SelectDialougeOption(int option)
 	{
 		if (!this.dTree.SelectOption(option))
@@ -140,7 +117,26 @@ public class DialogeScene : MonoBehaviour
 
 	void End()
 	{
-		Debug.Log("Ending the scene");
 		this.root.style.display = DisplayStyle.None;
+	}
+
+	IEnumerator LastEvent()
+	{
+		yield return new WaitForSecondsRealtime(DialogeScene.buttonDelayConst);
+		this.button_labels[0].text = "Ok";
+		this.buttons[0].clicked -= this.button_handlers[0];
+		this.buttons[0].clicked += () => this.End();
+		this.buttons[0].style.display = DisplayStyle.Flex;
+		yield break;
+	}
+
+	void ClearDialouge()
+	{
+		for (int i = 0; i < this.buttons.Count; i++)
+		{
+			this.buttons[i].style.display = DisplayStyle.None;
+		}
+
+		this.textComponent.text = "";
 	}
 }
