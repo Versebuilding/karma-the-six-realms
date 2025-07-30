@@ -1,0 +1,40 @@
+[
+	{
+		"title" : "Intro",
+		"speaker" : "bob",
+		"speech" : "Hello, my name is bob",
+		"responses" :
+		[
+			{
+				"text" : "Hi bob!",
+				"result" : "nice"
+			},
+			{
+				"text" : "I hate you, bob",
+				"result" : "mean"
+			},
+			{
+				"text" : "Ignore him",
+				"result" : "end"
+			},
+			{
+				"text" : "Run away in fear",
+				"result" : "end"
+			}
+		]
+	},
+	{
+		"title" : "nice",
+		"speaker" : "bob",
+		"speech" : "Its nice to meet you, player!
+		As a token of our friendship, please have this weird coin.",
+		"item" : "weird coin",
+		"result" : "end"
+	},
+	{
+		"title" : "mean",
+		"speaker" : "bob",
+		"speech" : "That is not very nice!!!!",
+		"result" : "end"
+	}
+]

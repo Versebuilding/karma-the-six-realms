@@ -17,7 +17,7 @@
 			</engine:Box>
 		</engine:Box>
 		<engine:Box name="speach_scroll_box">
-			<engine:Label name="speach" text="sample" />
+			<engine:Label name="BILLY" text="sample" />
 		</engine:Box>
     <engine:Box name="button_container">
 			<engine:Button class="option-button" name="Option1" text="">

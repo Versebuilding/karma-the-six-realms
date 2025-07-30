@@ -9,12 +9,12 @@
 }
 
 .button_container, .potrait_boxes {
-	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 }
 
 Button {
+	display: none;
 	width: 200px;
 	height: 50px;
 }
