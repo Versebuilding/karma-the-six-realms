@@ -28,12 +28,28 @@
 		"speaker" : "bob",
 		"speech" : "Its nice to meet you, player! As a token of our friendship, \n please have this weird coin.",
 		"item" : "weird coin",
-		"result" : "end"
+		"responses" :
+		[
+			{
+				"text" : "Say \"Thank you\"",
+				"result" : "end"
+			},
+			{
+				"text" : "Say \"I don't want it!!\"",
+				"result" : "no-coin"
+			}
+		]
 	},
 	{
 		"title" : "mean",
 		"speaker" : "bob",
 		"speech" : "That is not very nice!!!!",
+		"result" : "end"
+	},
+	{
+		"title" : "no-coin",
+		"speaker" : "bob",
+		"speech" : "Oh, well that's alright",
 		"result" : "end"
 	}
 ]
