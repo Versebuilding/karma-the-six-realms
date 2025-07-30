@@ -26,28 +26,6 @@ public class DialogeScene : MonoBehaviour
 	{
 		this.ui = GetComponent<UIDocument>();
 		this.root = this.ui.rootVisualElement;
-		// First, check if root is valid
-		Debug.Log($"Root is null: {this.root == null}");
-		Debug.Log($"Root name: {this.root.name}");
-		Debug.Log($"Root type: {this.root.GetType()}");
-
-		// List all children of root
-		foreach (var child in this.root.Children())
-		{
-			Debug.Log($"Child: {child.name} (Type: {child.GetType()})");
-		}
-
-		// Try querying without type constraint
-		var element = this.root.Query("BILLY").First();
-		Debug.Log($"Found element: {element != null}");
-
-		// If found, check its type
-		if (element != null)
-		{
-			Debug.Log($"Element type: {element.GetType()}");
-		}
-
-		// Then try the specific Label query
 		this.textComponent = this.root.Query<Label>("BILLY").First();
 
 		this.buttons =
@@ -67,8 +45,6 @@ public class DialogeScene : MonoBehaviour
 			buttons[i].clicked += () => this.SelectDialougeOption(buttonIndex);
 		}
 
-		Debug.Log("Starting");
-
 		StartCoroutine(StartCurrentEvent());
 	}
 
@@ -80,7 +56,6 @@ public class DialogeScene : MonoBehaviour
 			yield break;
 		}
 
-		Debug.Log("Starting first co");
 		yield return StartCoroutine(RevealAndScrollText(this.dTree.GetSpeech()));
 
 		Box buttonBox = this.root.Query<Box>(className: "button_container");
@@ -89,9 +64,6 @@ public class DialogeScene : MonoBehaviour
 
 		List<string> opts = this.dTree.GetResponseOptions();
 
-		Debug.Log("before loop");
-
-		//show the options
 		for (int i = 0; i < opts.Count; i++)
 		{
 			button_labels[i].text = opts[i];
@@ -101,8 +73,6 @@ public class DialogeScene : MonoBehaviour
 
 	IEnumerator RevealAndScrollText(string text)
 	{
-		Debug.Log("2nd co");
-		Debug.Log(text);
 		this.textComponent.text = ""; // Start with empty text
 
 		for (int i = 0; i < text.Length; i++)
