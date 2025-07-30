@@ -6,11 +6,11 @@
 		"responses" :
 		[
 			{
-				"text" : "Hi bob!",
+				"text" : "Say \"Hi bob!\"",
 				"result" : "nice"
 			},
 			{
-				"text" : "I hate you, bob",
+				"text" : "Say \"I hate you, bob\"",
 				"result" : "mean"
 			},
 			{
@@ -26,8 +26,7 @@
 	{
 		"title" : "nice",
 		"speaker" : "bob",
-		"speech" : "Its nice to meet you, player!
-		As a token of our friendship, please have this weird coin.",
+		"speech" : "Its nice to meet you, player! As a token of our friendship, \n please have this weird coin.",
 		"item" : "weird coin",
 		"result" : "end"
 	},
