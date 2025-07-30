@@ -23,6 +23,10 @@ public class DialogeTree
 		public List<string> GetResponseOptions()
 		{
 			List<string> res = new List<string>();
+			if (this.result == "end")
+			{
+				return res;
+			}
 			foreach (DialogeResponse response in responses)
 			{
 				res.Add(response.text);
@@ -52,6 +56,10 @@ public class DialogeTree
 		}
 		this.currentEvent = this.events[0];
 		this.valid = this.ValidateTree();
+		if (!this.valid)
+		{
+			Debug.Log("tree could not be validated");
+		}
 	}
 
 	public string GetSpeaker()
@@ -69,6 +77,12 @@ public class DialogeTree
 		return this.isOngoing;
 	}
 
+	public bool IsLastEvent()
+	{
+		Debug.Log(this.currentEvent.result);
+		return this.currentEvent.result == "end";
+	}
+
 	public List<string> GetResponseOptions()
 	{
 		return this.currentEvent.GetResponseOptions();
@@ -77,8 +91,10 @@ public class DialogeTree
 	public bool SelectOption(int option)
 	{
 		string result = this.currentEvent.GetOptionResult(option);
+		Debug.Log(result);
 		if (result == "end")
 		{
+			Debug.Log("Setting ongoing to false");
 			this.isOngoing = false;
 			return true;
 		}

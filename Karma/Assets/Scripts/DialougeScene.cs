@@ -11,7 +11,9 @@ using TMPro;
 
 public class DialogeScene : MonoBehaviour
 {
-	public float typingSpeed = 0.03f;
+	public static float buttonDelayConst = 0.75f;
+
+	public static float typingSpeed = 0.03f;
 
 	private static string JSONPath = Path.Combine(Application.dataPath, "DialogeScenes", "template.json");
 	private DialogeTree dTree = new DialogeTree(JSONPath);
@@ -21,6 +23,7 @@ public class DialogeScene : MonoBehaviour
 	private Label textComponent;
 	private List<UnityEngine.UIElements.Button> buttons;
 	private List<UnityEngine.UIElements.Label> button_labels;
+	private List<System.Action> button_handlers;
 
 	void Start()
 	{
@@ -36,31 +39,61 @@ public class DialogeScene : MonoBehaviour
 			root.Query<UnityEngine.UIElements.Label>(className: "option-label")
 			.ToList();
 
+		this.button_handlers = new List<System.Action>();
 		for (int i = 0; i < buttons.Count; i++)
 		{
 			//sorry about the random variable, but c# lambdas work wierd
 			//and this is the only way it compiles
 			//for more info see: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions
 			int buttonIndex = i;
-			buttons[i].clicked += () => this.SelectDialougeOption(buttonIndex);
+			System.Action bPress = () => this.SelectDialougeOption(buttonIndex);
+			buttons[i].clicked += bPress;
+			button_handlers.Add(bPress);
 		}
 
 		StartCoroutine(StartCurrentEvent());
 	}
 
+	IEnumerator LastEvent()
+	{
+		yield return new WaitForSecondsRealtime(DialogeScene.buttonDelayConst);
+		this.button_labels[0].text = "Ok";
+		this.buttons[0].clicked -= this.button_handlers[0];
+		this.buttons[0].clicked += () => this.End();
+		this.buttons[0].style.display = DisplayStyle.Flex;
+		yield break;
+	}
+
 	IEnumerator StartCurrentEvent()
 	{
+		Debug.Log(this.dTree.IsOngoing());
 		if (!this.dTree.IsOngoing())
 		{
+			Debug.Log("not ongoing");
 			this.End();
 			yield break;
 		}
 
-		yield return StartCoroutine(RevealAndScrollText(this.dTree.GetSpeech()));
+
+		string speech = this.dTree.GetSpeech();
+
+		if (speech == null)
+		{
+			Debug.Log("NULL SPEACH DETECTED");
+		}
+
+		yield return StartCoroutine(RevealAndScrollText(speech));
+
+		if (this.dTree.IsLastEvent())
+		{
+			Debug.Log("starting corr");
+			StartCoroutine(LastEvent());
+			yield break;
+		}
 
 		Box buttonBox = this.root.Query<Box>(className: "button_container");
 
-		yield return new WaitForSecondsRealtime(1f);
+		yield return new WaitForSecondsRealtime(DialogeScene.buttonDelayConst);
 
 		List<string> opts = this.dTree.GetResponseOptions();
 
