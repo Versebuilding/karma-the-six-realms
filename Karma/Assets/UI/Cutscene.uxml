@@ -6,6 +6,7 @@
 >
 	<engine:Box name="root-panel">
 		<engine:Style src="Cutscene.uss" />
+		<engine:Style src="Main.uss" />
 		<engine:Box name="potrait boxes">
 			<engine:Box class="potrait_box" name="speaker_potrait_box">
 				<engine:Label name="speaker_potrait_caption" text="bob" />

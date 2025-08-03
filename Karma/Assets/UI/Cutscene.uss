@@ -13,12 +13,6 @@
 	flex-wrap: wrap;
 }
 
-Button {
-	display: none;
-	width: 200px;
-	height: 50px;
-}
-
 .option-label {
 	white-space: normal;
 }

@@ -1,0 +1,12 @@
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+	<engine:Box name="root-panel">
+		<engine:Style src="InteractHint.uss" />
+		<engine:Style src="Main.uss" />
+		<engine:Label class="HintText" text="Press 'E' to Interact" />
+	</engine:Box>
+</engine:UXML>

@@ -1,0 +1,9 @@
+#root-panel {
+	position: absolute;
+	height: 100px;
+	left: 30%;
+	right: 30%;
+	bottom: 5%;
+	background-color: lightblue;
+	white-space: normal;
+}

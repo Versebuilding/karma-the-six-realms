@@ -1,22 +1,15 @@
-using System.IO;
 using UnityEngine;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine.UI;
-using UnityEditor.UI;
-using UnityEditor.UIElements;
 using UnityEngine.UIElements;
 using System.Collections;
-using TMPro;
+using System.Collections.Generic;
 
-public class DialogeScene : MonoBehaviour
+public class DialogScene : MonoBehaviour
 {
 	public static float buttonDelayConst = 0.75f;
 
 	public static float typingSpeed = 0.03f;
 
-	private static string JSONPath = Path.Combine(Application.dataPath, "DialogeScenes", "template.json");
-	private DialogeTree dTree = new DialogeTree(JSONPath);
+	private DialogeTree dTree;
 
 	private UIDocument ui;
 	private VisualElement root;
@@ -24,6 +17,8 @@ public class DialogeScene : MonoBehaviour
 	private List<UnityEngine.UIElements.Button> buttons;
 	private List<UnityEngine.UIElements.Label> button_labels;
 	private List<System.Action> button_handlers;
+	private string dialogTreePath;
+	public System.Action<string> uiHandlerCallback;
 
 	void Start()
 	{
@@ -50,6 +45,24 @@ public class DialogeScene : MonoBehaviour
 			buttons[i].clicked += bPress;
 			button_handlers.Add(bPress);
 		}
+	}
+
+	void Awake()
+	{
+		if (!string.IsNullOrEmpty(dialogTreePath))
+		{
+			this.dTree = new DialogeTree(dialogTreePath);
+		}
+	}
+
+	public void Initialize(string path)
+	{
+		this.dialogTreePath = path;
+		this.dTree = new DialogeTree(path);
+	}
+
+	public void StartScene()
+	{
 
 		StartCoroutine(StartCurrentEvent());
 	}
@@ -80,7 +93,7 @@ public class DialogeScene : MonoBehaviour
 
 		Box buttonBox = this.root.Query<Box>(className: "button_container");
 
-		yield return new WaitForSecondsRealtime(DialogeScene.buttonDelayConst);
+		yield return new WaitForSecondsRealtime(DialogScene.buttonDelayConst);
 
 		List<string> opts = this.dTree.GetResponseOptions();
 
@@ -118,11 +131,12 @@ public class DialogeScene : MonoBehaviour
 	void End()
 	{
 		this.root.style.display = DisplayStyle.None;
+		uiHandlerCallback?.Invoke("");
 	}
 
 	IEnumerator LastEvent()
 	{
-		yield return new WaitForSecondsRealtime(DialogeScene.buttonDelayConst);
+		yield return new WaitForSecondsRealtime(DialogScene.buttonDelayConst);
 		this.button_labels[0].text = "Ok";
 		this.buttons[0].clicked -= this.button_handlers[0];
 		this.buttons[0].clicked += () => this.End();
