@@ -1,0 +1,25 @@
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+	<engine:Box name="root-panel">
+		<engine:Style src="Menu.uss" />
+			<engine:Box class="menu-pane">
+				<engine:Label class="Title">Main Menu</engine:Label>
+				<engine:Button name="resume" class="menu-button">
+					<engine:Label text="Resume" />
+				</engine:Button>
+				<engine:Button name="load" class="menu-button">
+					<engine:Label text="Load Game" />
+				</engine:Button>
+				<engine:Button name="settings" class="menu-button">
+					<engine:Label text="Settings" />
+				</engine:Button>
+				<engine:Button name="quit" class="menu-button">
+					<engine:Label text="Quit" />
+				</engine:Button>
+			</engine:Box>
+    </engine:Box>
+</engine:UXML>

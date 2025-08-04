@@ -1,0 +1,44 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="HotBar.uss" />
+
+    <ui:VisualElement name="hotbar-container" class="hotbar-container">
+        <ui:VisualElement name="hotbar-background" class="hotbar-background">
+
+            <ui:VisualElement name="hotbar-slot-1" class="hotbar-slot">
+                <ui:VisualElement name="item-icon-1" class="item-icon" />
+                <ui:Label name="item-count-1" text="" class="item-count" />
+                <ui:Label name="slot-number-1" text="1" class="slot-number" />
+                <ui:VisualElement name="slot-highlight-1" class="slot-highlight" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="hotbar-slot-2" class="hotbar-slot">
+                <ui:VisualElement name="item-icon-2" class="item-icon" />
+                <ui:Label name="item-count-2" text="" class="item-count" />
+                <ui:Label name="slot-number-2" text="2" class="slot-number" />
+                <ui:VisualElement name="slot-highlight-2" class="slot-highlight" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="hotbar-slot-3" class="hotbar-slot">
+                <ui:VisualElement name="item-icon-3" class="item-icon" />
+                <ui:Label name="item-count-3" text="" class="item-count" />
+                <ui:Label name="slot-number-3" text="3" class="slot-number" />
+                <ui:VisualElement name="slot-highlight-3" class="slot-highlight" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="hotbar-slot-4" class="hotbar-slot">
+                <ui:VisualElement name="item-icon-4" class="item-icon" />
+                <ui:Label name="item-count-4" text="" class="item-count" />
+                <ui:Label name="slot-number-4" text="4" class="slot-number" />
+                <ui:VisualElement name="slot-highlight-4" class="slot-highlight" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="hotbar-slot-5" class="hotbar-slot">
+                <ui:VisualElement name="item-icon-5" class="item-icon" />
+                <ui:Label name="item-count-5" text="" class="item-count" />
+                <ui:Label name="slot-number-5" text="5" class="slot-number" />
+                <ui:VisualElement name="slot-highlight-5" class="slot-highlight" />
+            </ui:VisualElement>
+
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

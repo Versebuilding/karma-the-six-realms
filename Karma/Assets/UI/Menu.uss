@@ -1,0 +1,12 @@
+.menu-button {
+	display: flex;
+	width: 200px;
+	height: 50px;
+}
+
+.menu-pane {
+	display: flex;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
