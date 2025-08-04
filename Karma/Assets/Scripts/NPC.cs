@@ -13,7 +13,7 @@ public class NPC : Interactable
 
 	public override void interact()
 	{
-		UIController uiController = GameObject.Find("UIHandler").GetComponent<UIController>();
+		UIController uiController = GameObject.Find("UI").GetComponent<UIController>();
 		uiController.StartDialog(FullDialogPath);
 	}
 }

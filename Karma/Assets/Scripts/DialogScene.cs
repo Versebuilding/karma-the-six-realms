@@ -24,7 +24,7 @@ public class DialogScene : MonoBehaviour
 	{
 		this.ui = GetComponent<UIDocument>();
 		this.root = this.ui.rootVisualElement;
-		this.textComponent = this.root.Query<Label>("BILLY").First();
+		this.textComponent = this.root.Query<Label>("speech");
 
 		this.buttons =
 			root.Query<UnityEngine.UIElements.Button>(className: "option-button")
@@ -106,6 +106,28 @@ public class DialogScene : MonoBehaviour
 
 	IEnumerator RevealAndScrollText(string text)
 	{
+		this.ui = this.GetComponent<UIDocument>();
+		this.root = this.ui.rootVisualElement;
+		this.textComponent = this.root.Query<Label>("speech").First();
+		if (this.ui == null)
+		{
+			Debug.Log("ui is null");
+			this.ui = GetComponent<UIDocument>();
+		}
+
+		if (this.root == null)
+		{
+			Debug.Log("root is null");
+			this.root = this.ui.rootVisualElement;
+		}
+
+		if (this.textComponent == null)
+		{
+			Debug.Log("trying to find text comp");
+			this.textComponent = this.root.Query<Label>("speech").First();
+			Debug.Log(this.textComponent == null);
+		}
+
 		this.textComponent.text = ""; // Start with empty text
 
 		for (int i = 0; i < text.Length; i++)
