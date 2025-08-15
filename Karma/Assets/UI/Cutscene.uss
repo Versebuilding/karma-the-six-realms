@@ -8,9 +8,13 @@
 	margin-left: auto;
 }
 
-.button_container, .potrait_boxes {
+.button_container,
+.potrait_boxes {
 	flex-direction: row;
 	flex-wrap: wrap;
+	display: flex;
+	width: 100%;
+	min-height: 60px;
 }
 
 .option-label {

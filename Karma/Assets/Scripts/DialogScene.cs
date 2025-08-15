@@ -22,10 +22,57 @@ public class DialogScene : MonoBehaviour
 
 	void Start()
 	{
+	}
+
+	IEnumerator uicheck()
+	{
+		yield return new WaitForEndOfFrame();
+    yield return new WaitForEndOfFrame(); // Wait 2 frames for UI to settle
+		if (!string.IsNullOrEmpty(dialogTreePath))
+		{
+			this.dTree = new DialogeTree(dialogTreePath);
+		}
+
 		this.ui = GetComponent<UIDocument>();
 		this.root = this.ui.rootVisualElement;
+		this.root = this.root.Query<Box>("root-panel");
 		this.textComponent = this.root.Query<Label>("speech");
+		Debug.Log("Root panel bounds: " + root.worldBound);
+		Debug.Log("Root panel resolved width: " + root.resolvedStyle.width);
+		Debug.Log("Root panel resolved height: " + root.resolvedStyle.height);
 
+		Debug.Log("Root children count: " + this.root.childCount);
+		foreach(var child in this.root.Children())
+		{
+			Debug.Log("Child: " + child.name + " (type: " + child.GetType().Name + ")");
+		}
+
+		Box buttonBox = this.root.Query<Box>(className: "button_container").First();
+
+		Debug.Log("Container is null: " + (buttonBox == null));
+		if (buttonBox != null)
+		{
+			// Force layout update
+			buttonBox.MarkDirtyRepaint();
+			yield return new WaitForEndOfFrame();
+			Debug.Log("=== PARENT CHAIN DEBUG ===");
+			VisualElement current = buttonBox;
+			int level = 0;
+
+			while (current != null)
+			{
+				string indent = new string(' ', level * 2);
+				Debug.Log($"{indent}{current.name} ({current.GetType().Name})");
+				Debug.Log($"{indent}  Bounds: {current.worldBound}");
+				Debug.Log($"{indent}  Display: {current.resolvedStyle.display}");
+				Debug.Log($"{indent}  Width: {current.resolvedStyle.width}");
+				Debug.Log($"{indent}  Height: {current.resolvedStyle.height}");
+
+				current = current.parent;
+				level++;
+				if (level > 10) break; // Safety check
+			}
+		}
 		this.buttons =
 			root.Query<UnityEngine.UIElements.Button>(className: "option-button")
 			.ToList();
@@ -37,22 +84,20 @@ public class DialogScene : MonoBehaviour
 		this.button_handlers = new List<System.Action>();
 		for (int i = 0; i < buttons.Count; i++)
 		{
-			//sorry about the random variable, but c# lambdas work wierd
+			//sorry about the random variables, but c# lambdas work wierd
 			//and this is the only way it compiles
 			//for more info see: https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/lambda-expressions
 			int buttonIndex = i;
 			System.Action bPress = () => this.SelectDialougeOption(buttonIndex);
 			buttons[i].clicked += bPress;
+			buttons[i].style.display = DisplayStyle.None;
 			button_handlers.Add(bPress);
 		}
 	}
 
 	void Awake()
 	{
-		if (!string.IsNullOrEmpty(dialogTreePath))
-		{
-			this.dTree = new DialogeTree(dialogTreePath);
-		}
+		StartCoroutine(uicheck());
 	}
 
 	public void Initialize(string path)
@@ -63,13 +108,12 @@ public class DialogScene : MonoBehaviour
 
 	public void StartScene()
 	{
-
 		StartCoroutine(StartCurrentEvent());
 	}
 
 	IEnumerator StartCurrentEvent()
 	{
-		Debug.Log(this.dTree.IsOngoing());
+		yield return uicheck();
 		if (!this.dTree.IsOngoing())
 		{
 			this.End();
@@ -99,8 +143,20 @@ public class DialogScene : MonoBehaviour
 
 		for (int i = 0; i < opts.Count; i++)
 		{
-			button_labels[i].text = opts[i];
+			Debug.Log("=== Button " + i + " Debug ===");
+			Debug.Log("Button found: " + (buttons[i] != null));
+			Debug.Log("Before - Display: " + buttons[i].style.display);
+			Debug.Log("Before - text: " + button_labels[i].text);
+
 			buttons[i].style.display = DisplayStyle.Flex;
+			button_labels[i].text = opts[i];
+
+			Debug.Log("After - Display: " + buttons[i].style.display);
+			Debug.Log("Before - text: " + button_labels[i].text);
+			Debug.Log("Resolved display: " + buttons[i].resolvedStyle.display);
+			Debug.Log("World bounds: " + buttons[i].worldBound);
+			Debug.Log("Parent display: " + buttons[i].parent?.resolvedStyle.display);
+
 		}
 	}
 
@@ -152,6 +208,7 @@ public class DialogScene : MonoBehaviour
 
 	void End()
 	{
+		Debug.Log("Dialouge Ended");
 		this.root.style.display = DisplayStyle.None;
 		uiHandlerCallback?.Invoke("");
 	}
@@ -168,6 +225,7 @@ public class DialogScene : MonoBehaviour
 
 	void ClearDialouge()
 	{
+		Debug.Log("clearing dialouge");
 		for (int i = 0; i < this.buttons.Count; i++)
 		{
 			this.buttons[i].style.display = DisplayStyle.None;
