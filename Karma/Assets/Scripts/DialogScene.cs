@@ -13,6 +13,7 @@ public class DialogScene : MonoBehaviour
 
 	private UIDocument ui;
 	private VisualElement root;
+	private Box rootPanel;
 	private Label textComponent;
 	private List<UnityEngine.UIElements.Button> buttons;
 	private List<UnityEngine.UIElements.Label> button_labels;
@@ -22,51 +23,51 @@ public class DialogScene : MonoBehaviour
 
 	void Start()
 	{
+		if (!string.IsNullOrEmpty(dialogTreePath))
+		{
+			this.dTree = new DialogeTree(dialogTreePath);
+		}
 	}
 
 	IEnumerator uicheck()
 	{
 		yield return new WaitForEndOfFrame();
     yield return new WaitForEndOfFrame(); // Wait 2 frames for UI to settle
-		if (!string.IsNullOrEmpty(dialogTreePath))
-		{
-			this.dTree = new DialogeTree(dialogTreePath);
-		}
 
 		this.ui = GetComponent<UIDocument>();
 		this.root = this.ui.rootVisualElement;
-		this.root = this.root.Query<Box>("root-panel");
+		this.rootPanel = this.root.Query<Box>("root-panel");
 		this.textComponent = this.root.Query<Label>("speech");
-		Debug.Log("Root panel bounds: " + root.worldBound);
-		Debug.Log("Root panel resolved width: " + root.resolvedStyle.width);
-		Debug.Log("Root panel resolved height: " + root.resolvedStyle.height);
-
-		Debug.Log("Root children count: " + this.root.childCount);
+		// Debug.Log("Root panel bounds: " + root.worldBound);
+		// Debug.Log("Root panel resolved width: " + root.resolvedStyle.width);
+		// Debug.Log("Root panel resolved height: " + root.resolvedStyle.height);
+		//
+		// Debug.Log("Root children count: " + this.root.childCount);
 		foreach(var child in this.root.Children())
 		{
-			Debug.Log("Child: " + child.name + " (type: " + child.GetType().Name + ")");
+			// Debug.Log("Child: " + child.name + " (type: " + child.GetType().Name + ")");
 		}
 
-		Box buttonBox = this.root.Query<Box>(className: "button_container").First();
+		Box buttonBox = this.rootPanel.Query<Box>(className: "button_container").First();
 
-		Debug.Log("Container is null: " + (buttonBox == null));
+		// Debug.Log("Container is null: " + (buttonBox == null));
 		if (buttonBox != null)
 		{
 			// Force layout update
 			buttonBox.MarkDirtyRepaint();
 			yield return new WaitForEndOfFrame();
-			Debug.Log("=== PARENT CHAIN DEBUG ===");
+			// Debug.Log("=== PARENT CHAIN DEBUG ===");
 			VisualElement current = buttonBox;
 			int level = 0;
 
 			while (current != null)
 			{
 				string indent = new string(' ', level * 2);
-				Debug.Log($"{indent}{current.name} ({current.GetType().Name})");
-				Debug.Log($"{indent}  Bounds: {current.worldBound}");
-				Debug.Log($"{indent}  Display: {current.resolvedStyle.display}");
-				Debug.Log($"{indent}  Width: {current.resolvedStyle.width}");
-				Debug.Log($"{indent}  Height: {current.resolvedStyle.height}");
+				// Debug.Log($"{indent}{current.name} ({current.GetType().Name})");
+				// Debug.Log($"{indent}  Bounds: {current.worldBound}");
+				// Debug.Log($"{indent}  Display: {current.resolvedStyle.display}");
+				// Debug.Log($"{indent}  Width: {current.resolvedStyle.width}");
+				// Debug.Log($"{indent}  Height: {current.resolvedStyle.height}");
 
 				current = current.parent;
 				level++;
@@ -121,6 +122,7 @@ public class DialogScene : MonoBehaviour
 		}
 
 		string speech = this.dTree.GetSpeech();
+		Debug.Log("speach is (sce): " + speech);
 
 		if (speech == null)
 		{
@@ -143,55 +145,55 @@ public class DialogScene : MonoBehaviour
 
 		for (int i = 0; i < opts.Count; i++)
 		{
-			Debug.Log("=== Button " + i + " Debug ===");
-			Debug.Log("Button found: " + (buttons[i] != null));
-			Debug.Log("Before - Display: " + buttons[i].style.display);
-			Debug.Log("Before - text: " + button_labels[i].text);
+			// Debug.Log("=== Button " + i + " Debug ===");
+			// Debug.Log("Button found: " + (buttons[i] != null));
+			// Debug.Log("Before - Display: " + buttons[i].style.display);
+			// Debug.Log("Before - text: " + button_labels[i].text);
 
 			buttons[i].style.display = DisplayStyle.Flex;
 			button_labels[i].text = opts[i];
 
-			Debug.Log("After - Display: " + buttons[i].style.display);
-			Debug.Log("Before - text: " + button_labels[i].text);
-			Debug.Log("Resolved display: " + buttons[i].resolvedStyle.display);
-			Debug.Log("World bounds: " + buttons[i].worldBound);
-			Debug.Log("Parent display: " + buttons[i].parent?.resolvedStyle.display);
+			// Debug.Log("After - Display: " + buttons[i].style.display);
+			// Debug.Log("Before - text: " + button_labels[i].text);
+			// Debug.Log("Resolved display: " + buttons[i].resolvedStyle.display);
+			// Debug.Log("World bounds: " + buttons[i].worldBound);
+			// Debug.Log("Parent display: " + buttons[i].parent?.resolvedStyle.display);
 
 		}
 	}
 
 	IEnumerator RevealAndScrollText(string text)
 	{
-		this.ui = this.GetComponent<UIDocument>();
-		this.root = this.ui.rootVisualElement;
-		this.textComponent = this.root.Query<Label>("speech").First();
 		if (this.ui == null)
 		{
-			Debug.Log("ui is null");
+			// Debug.Log("ui is null");
 			this.ui = GetComponent<UIDocument>();
 		}
 
 		if (this.root == null)
 		{
-			Debug.Log("root is null");
+			// Debug.Log("root is null");
 			this.root = this.ui.rootVisualElement;
 		}
 
 		if (this.textComponent == null)
 		{
-			Debug.Log("trying to find text comp");
+			// Debug.Log("trying to find text comp");
 			this.textComponent = this.root.Query<Label>("speech").First();
-			Debug.Log(this.textComponent == null);
+			// Debug.Log(this.textComponent == null);
 		}
 
 		this.textComponent.text = ""; // Start with empty text
+		this.textComponent.MarkDirtyRepaint();
 
+		Debug.Log("speach is " + this.dTree.GetSpeech());
+		Debug.Log("printing text " + text);
 		for (int i = 0; i < text.Length; i++)
 		{
 			this.textComponent.text += text[i];
-
 			yield return new WaitForSeconds(typingSpeed);
 		}
+		Debug.Log($"Text reveal complete. Final text: '{this.textComponent.text}'");
 	}
 
 	public void SelectDialougeOption(int option)
@@ -201,8 +203,8 @@ public class DialogScene : MonoBehaviour
 			Debug.Log("Attempted to select an invalid option");
 		}
 
+		Debug.Log("new text " + this.dTree.GetSpeech());
 		this.ClearDialouge();
-
 		StartCoroutine(StartCurrentEvent());
 	}
 
