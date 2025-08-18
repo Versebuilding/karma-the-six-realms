@@ -133,6 +133,7 @@ public class DialogScene : MonoBehaviour
 
 		if (this.dTree.IsLastEvent())
 		{
+			Debug.Log("Here");
 			StartCoroutine(LastEvent());
 			yield break;
 		}
@@ -206,6 +207,10 @@ public class DialogScene : MonoBehaviour
 		Debug.Log("new text " + this.dTree.GetSpeech());
 		this.ClearDialouge();
 		StartCoroutine(StartCurrentEvent());
+		// if (!this.dTree.IsOngoing())
+		// {
+		// 	StartCoroutine(LastEvent());
+		// }
 	}
 
 	void End()

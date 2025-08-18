@@ -36,6 +36,10 @@ public class DialogeTree
 
 		public string GetOptionResult(int option)
 		{
+			if (this.responses == null)
+			{
+				return "end";
+			}
 			return this.responses[option].result;
 		}
 	}
