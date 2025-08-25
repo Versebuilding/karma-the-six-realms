@@ -3,12 +3,12 @@ using UnityEngine;
 public class Keys : MonoBehaviour
 {
 	[Header("Movement Stats")]
-	[SerializeField] private float speed = 15f;
+	[SerializeField] private float speed = 50f;
 
 	[Header("Camera Settings")]
 	[SerializeField] private Camera playerCamera;
-	[SerializeField] private float screenEdgeBuffer = 10f; // Distance from screen edge before camera moves
-	[SerializeField] private float cameraSpeed = 10f; // How fast the camera follows
+	[SerializeField] private float screenEdgeBuffer = 5000f; // Distance from screen edge before camera moves
+	[SerializeField] private float cameraSpeed = 8f; // How fast the camera follows
 	[SerializeField] private bool smoothCameraMovement = true;
 
 	private Rigidbody2D player;
@@ -48,8 +48,8 @@ public class Keys : MonoBehaviour
 		{
 			return;
 		}
-// 		bool inputPaused =
-// 		TODO
+		// 		bool inputPaused =
+		// 		TODO
 		// ============
 		// Player Movement
 		// ============
@@ -84,57 +84,62 @@ public class Keys : MonoBehaviour
 	{
 		if (playerCamera == null || player == null) return;
 
-		// Get player position in screen coordinates
-		Vector3 playerScreenPos = playerCamera.WorldToViewportPoint(player.position);
+		// Get player position in viewport space (0–1)
+		Vector3 playerViewportPos = playerCamera.WorldToViewportPoint(player.position);
 
-		// Calculate camera offset needed
-		Vector3 cameraOffset = Vector3.zero;
+		// Start with current camera position
+		Vector3 newCameraPos = targetCameraPosition;
 
-		// Check horizontal bounds
-		if (playerScreenPos.x < screenEdgeBuffer / 100f) // Left edge
+		// Horizontal check
+		if (playerViewportPos.x < screenEdgeBuffer / 100f) // Left
 		{
-			cameraOffset.x = playerScreenPos.x - (screenEdgeBuffer / 100f);
+			float delta = (screenEdgeBuffer / 100f) - playerViewportPos.x;
+			newCameraPos += playerCamera.transform.right * (-delta * cameraMoveDistance());
 		}
-		else if (playerScreenPos.x > 1f - (screenEdgeBuffer / 100f)) // Right edge
+		else if (playerViewportPos.x > 1f - (screenEdgeBuffer / 100f)) // Right
 		{
-			cameraOffset.x = playerScreenPos.x - (1f - (screenEdgeBuffer / 100f));
-		}
-
-		// Check vertical bounds
-		if (playerScreenPos.y < screenEdgeBuffer / 100f) // Bottom edge
-		{
-			cameraOffset.y = playerScreenPos.y - (screenEdgeBuffer / 100f);
-		}
-		else if (playerScreenPos.y > 1f - (screenEdgeBuffer / 100f)) // Top edge
-		{
-			cameraOffset.y = playerScreenPos.y - (1f - (screenEdgeBuffer / 100f));
+			float delta = playerViewportPos.x - (1f - (screenEdgeBuffer / 100f));
+			newCameraPos += playerCamera.transform.right * (delta * cameraMoveDistance());
 		}
 
-		// Convert offset back to world coordinates
-		if (cameraOffset != Vector3.zero)
+		// Vertical check
+		if (playerViewportPos.y < screenEdgeBuffer / 100f) // Bottom
 		{
-			Vector3 worldOffset = playerCamera.ViewportToWorldPoint(new Vector3(cameraOffset.x, cameraOffset.y, playerCamera.nearClipPlane)) -
-								 playerCamera.ViewportToWorldPoint(Vector3.zero);
-
-			targetCameraPosition += new Vector3(worldOffset.x, worldOffset.y, 0);
+			float delta = (screenEdgeBuffer / 100f) - playerViewportPos.y;
+			newCameraPos += playerCamera.transform.up * (-delta * cameraMoveDistance());
+		}
+		else if (playerViewportPos.y > 1f - (screenEdgeBuffer / 100f)) // Top
+		{
+			float delta = playerViewportPos.y - (1f - (screenEdgeBuffer / 100f));
+			newCameraPos += playerCamera.transform.up * (delta * cameraMoveDistance());
 		}
 
-		// Apply camera movement
+		targetCameraPosition = new Vector3(newCameraPos.x, newCameraPos.y, targetCameraPosition.z);
+
+		// Smooth or instant move
 		if (smoothCameraMovement)
 		{
-			// Smooth camera following
 			playerCamera.transform.position = Vector3.Lerp(
-				playerCamera.transform.position,
-				targetCameraPosition,
-				cameraSpeed * Time.deltaTime
-			);
+					playerCamera.transform.position,
+					targetCameraPosition,
+					cameraSpeed * Time.deltaTime
+					);
 		}
 		else
 		{
-			// Instant camera movement
-			playerCamera.transform.position = targetCameraPosition;
+			playerCamera.transform.position = new Vector2(newCameraPos.x, newCameraPos.y);
 		}
 	}
+
+	// This determines how far the camera should move in world space for a full viewport shift
+	private float cameraMoveDistance()
+	{
+		// Use the vertical size at that distance as scale
+		float worldHeight = 2f * 25 * Mathf.Tan(playerCamera.fieldOfView * 0.5f * Mathf.Deg2Rad);
+		return worldHeight;
+	}
+
+
 
 	public void TakeKeyControl()
 	{
