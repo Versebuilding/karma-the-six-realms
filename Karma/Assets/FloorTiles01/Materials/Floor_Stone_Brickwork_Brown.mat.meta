@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 04447650db3605c41aa74cbfbfec51aa
+timeCreated: 1449584058
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51535
+  packageName: 'Hand Painted Textures: Stone Tiles'
+  packageVersion: 1.0
+  assetPath: Assets/FloorTiles01/Materials/Floor_Stone_Brickwork_Brown.mat
+  uploadId: 93280

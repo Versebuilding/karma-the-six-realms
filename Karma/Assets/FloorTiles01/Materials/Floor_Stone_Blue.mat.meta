@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2c530befbbd1e264b917918e83e952b7
+timeCreated: 1449583584
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 51535
+  packageName: 'Hand Painted Textures: Stone Tiles'
+  packageVersion: 1.0
+  assetPath: Assets/FloorTiles01/Materials/Floor_Stone_Blue.mat
+  uploadId: 93280
